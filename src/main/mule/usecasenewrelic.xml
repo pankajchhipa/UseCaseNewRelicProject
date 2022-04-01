@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:new-relic-api="http://www.mulesoft.org/schema/mule/new-relic-api"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/new-relic-api http://www.mulesoft.org/schema/mule/new-relic-api/current/mule-new-relic-api.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+	<flow name="usecasenewrelicFlow" doc:id="41477e09-881a-4695-a97e-569ac79655ad" >
+		<http:listener doc:name="Listener" doc:id="f7ae2780-f462-4002-aa6b-9d1e075f69c3" path="/newrelic" config-ref="HTTP_Listener_config" allowedMethods="POST"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9b4997e7-1e92-4b79-b8f1-21102bb0d8b5" message='#[payload]'/>
+		<ee:transform doc:name="Transform Message" doc:id="393c9b12-6c3c-443a-9e6a-b32e94f2bb9d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Message : "Data Successfully Inserted [Please check New Relic DashBoard]"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

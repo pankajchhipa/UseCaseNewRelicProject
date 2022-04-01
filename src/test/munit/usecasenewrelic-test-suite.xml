@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="usecasenewrelic-test-suite.xml" />
+	<munit:test name="usecasenewrelic-test-suite-usecasenewrelicFlowTest" doc:id="1303e18f-948b-499c-ad1a-42b27a070e6a" description="Test">
+		<munit:behavior>
+			<set-payload value='#[{&#10;    "eventType": "corona",&#10;    "SNo": 222,&#10;    "ObservationDate": "01/22/2020",&#10;    "Province/State": "",&#10;    "Country/Region": "Mexico",&#10;    "Last Update": "1/22/20 17:00",&#10;    "Confirmed": 1,&#10;    "Deaths": 1,&#10;    "Recovered": 1&#10;  }]' doc:name="Payload" doc:id="e26c9100-9d25-4351-8585-a50d60c56d36" mimeType="application/json"/>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to usecasenewrelicFlow" doc:id="e3f457c3-9d66-467f-b00e-426dbba4bb83" name="usecasenewrelicFlow"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="9fd867ee-9fab-4fa0-ba29-472e44495441" is="#[MunitTools::equalTo('Data Successfully Inserted [Please check New Relic DashBoard]')]" expression="#[payload.Message]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
